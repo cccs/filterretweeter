@@ -3,6 +3,9 @@ package de.cccs.filterretweeter;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
@@ -11,6 +14,7 @@ import twitter4j.TwitterException;
 
 
 public class Retweeter {
+	final static Logger logger = LoggerFactory.getLogger(Retweeter.class);
 	final Query query;
 	private Date lastUpdate = new Date();
 	
@@ -30,9 +34,13 @@ public class Retweeter {
 	public void checkRetweet(Twitter twitter, Status status, List<Filter> filters) throws TwitterException {
 		// Check if tweet should be filtered
 		for (Filter filter: filters) {
-			if (filter.filterTweet(status)) return;
+			if (filter.filterTweet(status)) {
+				logger.info("--- Skipping tweet @" + status.getUser().getScreenName() + ":" + status.getText());
+				return;
+			}
 		}
 		// Do retweet
+		logger.info("+++ Retweeting @" + status.getUser().getScreenName() + ":" + status.getText());
 		twitter.retweetStatus(status.getId());
 		// Notify filters
 		for (Filter filter: filters) {
@@ -58,7 +66,7 @@ public class Retweeter {
 		    	}
 		    }
 		} catch (TwitterException e) {
-			System.err.println("Problem with search: " + e);
+			logger.warn("Problem with search: ", e);
 		}	    
 	    lastUpdate=new Date();
 	}

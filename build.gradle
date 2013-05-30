@@ -13,5 +13,7 @@ task wrapper(type: Wrapper) {
 }
 
 dependencies {
+  compile 'org.slf4j:slf4j-api:1.7.5'
+  compile 'ch.qos.logback:logback-core:1.0.13'
   compile 'org.twitter4j:twitter4j-core:3.0.3'
 }
