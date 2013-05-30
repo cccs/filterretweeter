@@ -60,7 +60,9 @@ public class Retweeter {
 	    QueryResult result;
 		try {
 			result = twitter.search(query);
-		    for (Status status : result.getTweets()) {
+			List<Status> tweets = result.getTweets();			
+			logger.info("Query " + query.getQuery() + " returned " + tweets.size() + " tweets");
+		    for (Status status : tweets) {
 		    	if (!status.isRetweet() && lastUpdate.before(status.getCreatedAt())) {
 		    		checkRetweet(twitter, status, filters);
 		    	}
