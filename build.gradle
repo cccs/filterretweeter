@@ -1,8 +1,11 @@
+apply plugin: 'java'
+apply plugin:'application'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
-apply plugin: 'java'
 
 sourceCompatibility = 1.6
+
+mainClassName = "de.cccs.filterretweeter.FilterRetweeter"
 
 repositories {
   mavenCentral()
