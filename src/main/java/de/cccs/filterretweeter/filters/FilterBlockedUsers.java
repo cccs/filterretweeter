@@ -17,7 +17,7 @@ public class FilterBlockedUsers implements Filter {
 	final static Logger logger = LoggerFactory.getLogger(FilterBlockedUsers.class);
 	public final int INTERVAL = 15; // Update every 15 mins
 	final Twitter twitter;
-	List<Long> blockedIDs;
+	List<Long> blockedIDs = new ArrayList<Long>();
 	Date lastUpdate = null;
 	
 	public FilterBlockedUsers(Twitter twitter) {
