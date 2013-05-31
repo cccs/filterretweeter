@@ -17,7 +17,7 @@ public class Retweeter {
 	final static Logger logger = LoggerFactory.getLogger(Retweeter.class);
 	final Query query;
 	private Date lastUpdate = new Date();
-	
+
 	public Retweeter(String query) {
 		this.query = new Query(query);
 	}
@@ -25,7 +25,7 @@ public class Retweeter {
 	/**
 	 * Check a single tweet against filters.
 	 * If filters pass, retweet and update filters.
-	 * 
+	 *
 	 * @param twitter
 	 * @param status
 	 * @param filters
@@ -52,7 +52,7 @@ public class Retweeter {
 	/**
 	 * Do a single run: Do query, iterate over all results, process
 	 * tweets which are newer than the last run and are no retweets by themselves.
-	 * 
+	 *
 	 * @param twitter
 	 * @param filters
 	 */
@@ -60,16 +60,16 @@ public class Retweeter {
 	    QueryResult result;
 		try {
 			result = twitter.search(query);
-			List<Status> tweets = result.getTweets();			
+			List<Status> tweets = result.getTweets();
 			logger.info("Query " + query.getQuery() + " returned " + tweets.size() + " tweets");
 		    for (Status status : tweets) {
-		    	if (!status.isRetweet() && lastUpdate.before(status.getCreatedAt())) {
+		    	if (!status.isRetweet() /*&& lastUpdate.before(status.getCreatedAt())*/) {
 		    		checkRetweet(twitter, status, filters);
 		    	}
 		    }
 		} catch (TwitterException e) {
 			logger.warn("Problem with search: ", e);
-		}	    
+		}
 	    lastUpdate=new Date();
 	}
 }
