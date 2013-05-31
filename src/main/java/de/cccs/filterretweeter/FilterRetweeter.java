@@ -11,6 +11,8 @@ import de.cccs.filterretweeter.filters.FilterUsernames;
 
 
 public class FilterRetweeter {
+  static final int DELAY = 4;
+
 	public static void main(String[] args) {
 		System.out.println("Filter Retweeter");
 
@@ -28,9 +30,9 @@ public class FilterRetweeter {
 			for (Retweeter r: retweeters) {
 				r.run(twitter, filterList);
 			}
-			System.out.println("Checking done. Sleeping...");
+			System.out.println("Checking done. Sleeping " + DELAY + " minutes...");
 			try {
-				Thread.sleep(1000*60*4);
+				Thread.sleep(1000*60*DELAY);
 			} catch (InterruptedException e) { }
 		}
 	}
