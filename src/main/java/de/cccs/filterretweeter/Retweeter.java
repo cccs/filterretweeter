@@ -60,16 +60,21 @@ public class Retweeter {
 	    QueryResult result;
 		try {
 			result = twitter.search(query);
-			List<Status> tweets = result.getTweets();
-			logger.info("Query " + query.getQuery() + " returned " + tweets.size() + " tweets");
-		    for (Status status : tweets) {
-		    	if (!status.isRetweet() /*&& lastUpdate.before(status.getCreatedAt())*/) {
-		    		checkRetweet(twitter, status, filters);
-		    	}
-		    }
 		} catch (TwitterException e) {
 			logger.warn("Problem with search: ", e);
+      return;
 		}
-	    lastUpdate=new Date();
+    List<Status> tweets = result.getTweets();
+    logger.info("Query " + query.getQuery() + " returned " + tweets.size() + " tweets");
+    for (Status status : tweets) {
+      if (!status.isRetweet() /*&& lastUpdate.before(status.getCreatedAt())*/) {
+        try {
+          checkRetweet(twitter, status, filters);
+        } catch (TwitterException e) {
+          logger.warn("Unable to retweet status (skipping it): ", e);
+        }
+      }
+    }
+    lastUpdate=new Date();
 	}
 }
