@@ -31,7 +31,7 @@ public class Retweeter {
 	 * @param filters
 	 * @throws TwitterException
 	 */
-	public void checkRetweet(Twitter twitter, Status status, List<Filter> filters) throws TwitterException {
+	public void checkRetweet(Twitter twitter, Status status, List<Filter> filters) {
 		// Check if tweet should be filtered
 		for (Filter filter: filters) {
 			if (filter.filterTweet(status)) {
@@ -41,7 +41,11 @@ public class Retweeter {
 		}
 		// Do retweet
 		logger.info("+++ Retweeting @" + status.getUser().getScreenName() + ":" + status.getText());
-		twitter.retweetStatus(status.getId());
+    try {
+      twitter.retweetStatus(status.getId());
+    } catch (TwitterException e) {
+      logger.warn("Unable to retweet status (skipping it): ", e);
+    }
 		// Notify filters
 		for (Filter filter: filters) {
 			filter.notify(status);
@@ -68,11 +72,7 @@ public class Retweeter {
     logger.info("Query " + query.getQuery() + " returned " + tweets.size() + " tweets");
     for (Status status : tweets) {
       if (!status.isRetweet() && !status.isRetweetedByMe() /*&& lastUpdate.before(status.getCreatedAt())*/) {
-        try {
-          checkRetweet(twitter, status, filters);
-        } catch (TwitterException e) {
-          logger.warn("Unable to retweet status (skipping it): ", e);
-        }
+        checkRetweet(twitter, status, filters);
       }
     }
     lastUpdate=new Date();
