@@ -13,7 +13,7 @@ import de.cccs.filterretweeter.filters.FilterUsernames;
 public class FilterRetweeter {
 	public static void main(String[] args) {
 		System.out.println("Filter Retweeter");
-		
+
 		Twitter twitter = TwitterFactory.getSingleton();
 		List<Filter> filterList = new ArrayList<Filter>();
 		filterList.add(new FilterAlreadyRetweeted());
@@ -30,7 +30,7 @@ public class FilterRetweeter {
 			}
 			System.out.println("Checking done. Sleeping...");
 			try {
-				Thread.sleep(1000*120);
+				Thread.sleep(1000*60*4);
 			} catch (InterruptedException e) { }
 		}
 	}

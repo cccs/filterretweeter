@@ -19,7 +19,7 @@ public class Retweeter {
 	private Date lastUpdate = new Date();
 
 	public Retweeter(String query) {
-		this.query = new Query(query);
+		this.query = new Query(query).count(30);
 	}
 
 	/**
