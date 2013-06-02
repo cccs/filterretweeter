@@ -9,4 +9,4 @@ target
 bin
 /.gradle
 build
-
+/src/main/resources/twitter4j.properties
