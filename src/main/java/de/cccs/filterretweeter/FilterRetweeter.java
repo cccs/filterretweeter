@@ -15,29 +15,23 @@ public class FilterRetweeter {
 	public static void main(String[] args) {
 		System.out.println("Filter Retweeter");
 
-		Twitter twitter = TwitterFactory.getSingleton();
-		List<Filter> filterList = new ArrayList<Filter>();
-		filterList.add(new FilterAlreadyRetweeted());
-		filterList.add(new FilterBlockedUsers(twitter));
-		filterList.add(new FilterUsernames("conferencecat\\d*", "confere\\d*", "gpncat\\d*", "gpnation"));
-		List<Retweeter> retweeters = new ArrayList<Retweeter>();
-		retweeters.add(new Retweeter(twitter, filterList, "#eh14"));
-		retweeters.add(new Retweeter(twitter, filterList, "#eh2014"));
-
+        Twitter twitter = TwitterFactory.getSingleton();
         try {
             System.out.println("Logged in as " + twitter.getAccountSettings().getScreenName());
         } catch (Exception e) {
             System.out.println("Unable to log in: " + e);
             System.exit(1);
         }
-
-        // Setup stream
         TwitterStreamFactory streamFactory = new TwitterStreamFactory();
-        TwitterStream stream = streamFactory.getInstance();
-        for (Retweeter r: retweeters) {
-            stream.addListener(r);
-        }
-        stream.sample();
+
+		List<Filter> filterList = new ArrayList<Filter>();
+		filterList.add(new FilterAlreadyRetweeted());
+		filterList.add(new FilterBlockedUsers(twitter));
+		filterList.add(new FilterUsernames("conferencecat\\d*", "confere\\d*", "gpncat\\d*", "gpnation"));
+
+		List<Retweeter> retweeters = new ArrayList<Retweeter>();
+		retweeters.add(new Retweeter(twitter, streamFactory, filterList, "#eh14"));
+		retweeters.add(new Retweeter(twitter, streamFactory, filterList, "#eh2014"));
 
         // Fallback: Do search
         while(true) {

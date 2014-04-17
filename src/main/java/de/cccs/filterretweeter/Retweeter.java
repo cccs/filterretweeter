@@ -14,13 +14,20 @@ public class Retweeter implements StatusListener {
     final Twitter twitter;
     List<Filter> filters;
     final Query query;
+    final TwitterStream stream;
     private Date lastUpdate = new Date();
 
 
-    public Retweeter(Twitter twitter, List<Filter> filters, String query) {
+    public Retweeter(Twitter twitter, TwitterStreamFactory streamFactory, List<Filter> filters, String query) {
         this.twitter = twitter;
         this.filters = filters;
         this.query = new Query(query).count(30);
+        // Setup stream
+        stream = streamFactory.getInstance();
+        FilterQuery filter = new FilterQuery();
+        filter.track(new String[] { query });
+        stream.addListener(this);
+        stream.filter(filter);
     }
 
     /**
