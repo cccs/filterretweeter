@@ -3,13 +3,10 @@ package de.cccs.filterretweeter;
 import java.util.ArrayList;
 import java.util.List;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
+import twitter4j.*;
 import de.cccs.filterretweeter.filters.FilterAlreadyRetweeted;
 import de.cccs.filterretweeter.filters.FilterBlockedUsers;
 import de.cccs.filterretweeter.filters.FilterUsernames;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
 
 
 public class FilterRetweeter {
@@ -26,6 +23,13 @@ public class FilterRetweeter {
 		List<Retweeter> retweeters = new ArrayList<Retweeter>();
 		retweeters.add(new Retweeter(twitter, filterList, "#eh14"));
 		retweeters.add(new Retweeter(twitter, filterList, "#eh2014"));
+
+        try {
+            System.out.println("Logged in as " + twitter.getAccountSettings().getScreenName());
+        } catch (Exception e) {
+            System.out.println("Unable to log in: " + e);
+            System.exit(1);
+        }
 
         // Setup stream
         TwitterStreamFactory streamFactory = new TwitterStreamFactory();
