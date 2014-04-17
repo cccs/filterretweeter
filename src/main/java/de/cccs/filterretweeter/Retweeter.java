@@ -52,7 +52,7 @@ public class Retweeter implements StatusListener {
         try {
             twitter.retweetStatus(status.getId());
         } catch (TwitterException e) {
-            logger.warn("Unable to retweet status (skipping it): ", e);
+            logger.warn("Unable to retweet status (skipping it): " + e);
         }
         // Notify filters
         for (Filter filter : filters) {

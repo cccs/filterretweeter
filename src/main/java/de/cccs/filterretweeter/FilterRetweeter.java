@@ -32,6 +32,7 @@ public class FilterRetweeter {
 		List<Retweeter> retweeters = new ArrayList<Retweeter>();
 		retweeters.add(new Retweeter(twitter, streamFactory, filterList, "#eh14"));
 		retweeters.add(new Retweeter(twitter, streamFactory, filterList, "#eh2014"));
+		retweeters.add(new Retweeter(twitter, streamFactory, filterList, "#easterhegg"));
 
         // Fallback: Do search
         while(true) {
